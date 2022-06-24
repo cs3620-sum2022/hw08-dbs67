@@ -1,6 +1,6 @@
 # Homework 08 - HTTP Requests and Responses
 
-## Stringham, First Name
+## Stringham, Don
 
 `dbs67`
 
