@@ -144,7 +144,11 @@ class MyHttpRequest implements MyHttpRequestInterface
     public function send(): MyHttpResponse
     {
         // TODO Implement method
-
+        $ch = curl_init($this->getUrl());
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // TODO Process response and create MyHttpResponse object.
+        curl_close($ch);
         return new MyHttpResponse();
     }
 
