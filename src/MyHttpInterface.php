@@ -29,7 +29,7 @@ interface MyHttpInterface
      *
      * @return []
      */
-    public function getHeaders();
+    public function getHeaders():array;
 
     /**
      * SetHeaders sets the request/response headers
@@ -55,7 +55,7 @@ interface MyHttpInterface
      *
      * @return string
      */
-    public function getBody();
+    public function getBody():string;
 
     /**
      * SetBody sets request/response body
@@ -65,4 +65,22 @@ interface MyHttpInterface
      * @return void
      */
     public function setBody($body);
+
+    /**
+     * SetMetaData sets meta data for the request/response.
+     *
+     * @param string $arg1 Method/Protocol
+     * @param string $arg2 Path/Status Code
+     * @param string $arg3 Protocol/Status Message
+     *
+     * @return void
+     */
+    public function setMetaData($arg1, $arg2, $arg3);
+
+    /**
+     * GetMetaData returns meta data for the request/response
+     *
+     * @return [] [$arg1, $arg2, $arg3]
+     */
+    public function getMetaData():array;
 }
