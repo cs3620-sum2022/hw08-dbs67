@@ -41,13 +41,6 @@ interface MyHttpRequestInterface extends MyHttpInterface
     public function setMethod($method);
 
     /**
-     * Send issues the HTTP request
-     *
-     * @return /App/MyHttpResponse
-     */
-    public function send(): MyHttpResponse;
-
-    /**
      * GetUrl returns the request's url.
      *
      * @return string

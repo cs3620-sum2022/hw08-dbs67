@@ -17,18 +17,25 @@ class MyHttpAction implements MyHttpActionInterface {
     const URL_NAME = 'url';
     const HTTP_METHOD = 'GET';
 
+    // TODO Add doc blocks
     public function send(MyHttpRequestInterface $request) {
+        $responseString = file_get_contents('http://www.example.com/');
+
+        if ($responseString === false) {
+            throw new \RuntimeException("FAILED: at the request or to get a response");
+        }
+
         $response = new MyHttpResponse();
 
-        $response->setStatusCode(501);
-        $response->setStatusCodeMsg("Not implemented.");
+        $response->setStatusCode(200);
+        $response->setStatusCodeMsg("OK");
+        $response->setBody($responseString);
 
         return $response;
     }
 
+    // TODO Add doc blocks
     public function buildHttpRequest(array $args): MyHttpRequestInterface {
-        // TODO $args more in-depth array validation
-
         if (count($args) === 0) {
             throw new \InvalidArgumentException('You must provide at least one parameter in $args.');
         }
@@ -44,6 +51,7 @@ class MyHttpAction implements MyHttpActionInterface {
         return new MyHttpRequest($args[$this::URL_NAME]);
     }
 
+    // TODO Add doc blocks
     public function buildHttpResponse(string $stringedResponse): MyHttpResponseInterface {
         // TODO Parse the response string to the appropriate parts.
         return new MyHttpResponse();

@@ -59,7 +59,7 @@ class MyHttpResponse implements MyHttpResponseInterface
      *
      * @return string
      */
-    public function getBody()
+    public function getBody():string
     {
         return $this->_body;
     }
@@ -81,7 +81,7 @@ class MyHttpResponse implements MyHttpResponseInterface
      *
      * @return []
      */
-    public function getHeaders()
+    public function getHeaders():array
     {
         return $this->_headers;
     }
@@ -149,5 +149,26 @@ class MyHttpResponse implements MyHttpResponseInterface
     public function setStatusCode($statusCode)
     {
         $this->_statusCode = $statusCode;
+    }
+    /**
+     * SetMetaData sets meta data for the request/response.
+     *
+     * @param string $arg1 Method/Protocol
+     * @param string $arg2 Path/Status Code
+     * @param string $arg3 Protocol/Status Message
+     *
+     * @return void
+     */
+    public function setMetaData($arg1, $arg2, $arg3)
+    {}
+
+    /**
+     * GetMetaData returns meta data for the request/response
+     *
+     * @return [] [$arg1, $arg2, $arg3]
+     */
+    public function getMetaData():array
+    {
+        return [];
     }
 }

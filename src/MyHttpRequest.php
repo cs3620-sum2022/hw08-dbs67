@@ -119,7 +119,7 @@ class MyHttpRequest implements MyHttpRequestInterface
      *
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->_method;
     }
@@ -137,27 +137,11 @@ class MyHttpRequest implements MyHttpRequestInterface
     }
 
     /**
-     * Send issues the HTTP request
-     *
-     * @return /App/MyHttpResponse
-     */
-    public function send(): MyHttpResponse
-    {
-        // TODO Implement method
-        $ch = curl_init($this->getUrl());
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // TODO Process response and create MyHttpResponse object.
-        curl_close($ch);
-        return new MyHttpResponse();
-    }
-
-    /**
      * GetHeaders returns request/response headers
      *
      * @return []
      */
-    public function getHeaders()
+    public function getHeaders():array
     {
         return $this->_headers;
     }
@@ -192,7 +176,7 @@ class MyHttpRequest implements MyHttpRequestInterface
      *
      * @return string
      */
-    public function getBody()
+    public function getBody():string
     {
         return $this->_body;
     }
@@ -214,7 +198,7 @@ class MyHttpRequest implements MyHttpRequestInterface
      *
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->_url;
     }
@@ -228,10 +212,41 @@ class MyHttpRequest implements MyHttpRequestInterface
      */
     public function setUrl($url)
     {
-        // TODO Implement missing part of the method.
+        $this->_url = $url;
+        $this->_url_info = parse_url($url);
+
+        if ($this->_url_info === false) {
+            throw new \InvalidArgumentException("Seriously malformed URL");
+        }
+
+        $this->_hostname = !empty($this->_url_info['host']) ? $this->_url_info['host'] : null;
+        $this->_port = !empty($this->_url_info['port']) ? $this->_url_info['port'] : null;
+        $this->_path = !empty($this->_url_info['path']) ? $this->_url_info['path'] : null;
 
         $this->_headers['Host'] = $this->_hostname;
         $this->_headers['Connection'] = 'close';
+    }
+
+    /**
+     * SetMetaData sets meta data for the request/response.
+     *
+     * @param string $arg1 Method/Protocol
+     * @param string $arg2 Path/Status Code
+     * @param string $arg3 Protocol/Status Message
+     *
+     * @return void
+     */
+    public function setMetaData($arg1, $arg2, $arg3) {
+
+    }
+
+    /**
+     * GetMetaData returns meta data for the request/response
+     *
+     * @return [] [$arg1, $arg2, $arg3]
+     */
+    public function getMetaData():array {
+        return [];
     }
 
     /**
