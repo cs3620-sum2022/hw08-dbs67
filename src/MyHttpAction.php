@@ -18,20 +18,22 @@ class MyHttpAction implements MyHttpActionInterface {
     const HTTP_METHOD = 'GET';
 
     // TODO Add doc blocks
-    public function send(MyHttpRequestInterface $request) {
-        $responseString = file_get_contents('http://www.example.com/');
+    public function send(MyHttpRequestInterface $request): MyHttpResponseInterface {
+        $ch = curl_init();
 
-        if ($responseString === false) {
-            throw new \RuntimeException("FAILED: at the request or to get a response");
+        curl_setopt($ch, CURLOPT_URL, $request->getUrl());
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $res = curl_exec($ch);
+
+        if ($res === false) {
+            throw new \RuntimeException(curl_error($ch));
         }
 
-        $response = new MyHttpResponse();
+        curl_close($ch);
 
-        $response->setStatusCode(200);
-        $response->setStatusCodeMsg("OK");
-        $response->setBody($responseString);
-
-        return $response;
+        return $this->buildHttpResponse($res);
     }
 
     // TODO Add doc blocks
@@ -54,6 +56,15 @@ class MyHttpAction implements MyHttpActionInterface {
     // TODO Add doc blocks
     public function buildHttpResponse(string $stringedResponse): MyHttpResponseInterface {
         // TODO Parse the response string to the appropriate parts.
+        if (empty($stringedResponse)) {
+            throw new \InvalidArgumentException('$stringedResponse is EMPTY.');
+        }
+
+        $responseArray = explode("\n", $stringedResponse);
+
+        print_r($responseArray);
+        die();
+
         return new MyHttpResponse();
     }
 }

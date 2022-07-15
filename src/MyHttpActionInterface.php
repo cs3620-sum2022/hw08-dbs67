@@ -29,7 +29,7 @@ interface MyHttpActionInterface {
      *
      * @return MyHttpResponseInterface
      */
-    public function send(MyHttpRequestInterface $request);
+    public function send(MyHttpRequestInterface $request): MyHttpResponseInterface;
 
     /**
      * buildHttpRequest news a HttpRequest and loads the passed in data.
