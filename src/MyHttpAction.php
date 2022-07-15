@@ -13,23 +13,35 @@
 declare(strict_types=1);
 namespace App;
 
-const URL_NAME = 'url';
-const HTTP_METHOD = 'GET';
-
 class MyHttpAction implements MyHttpActionInterface {
+    const URL_NAME = 'url';
+    const HTTP_METHOD = 'GET';
 
     public function send(MyHttpRequestInterface $request) {
         $response = new MyHttpResponse();
+
+        $response->setStatusCode(501);
+        $response->setStatusCodeMsg("Not implemented.");
 
         return $response;
     }
 
     public function buildHttpRequest(array $args): MyHttpRequestInterface {
-        /**
-         * $args[URL_NAME] = 'http://example.com';
-         * $args[HTTP_METHOD] = 'GET';
-         */
-        return new MyHttpRequest($args[URL_NAME]);
+        // TODO $args more in-depth array validation
+
+        if (count($args) === 0) {
+            throw new \InvalidArgumentException('You must provide at least one parameter in $args.');
+        }
+
+        if (empty($args[$this::URL_NAME])) {
+            throw new \InvalidArgumentException('You must provide an URL_NAME parameter in $args.');
+        }
+
+        if (!empty($args[$this::HTTP_METHOD])) {
+            return new MyHttpRequest($args[$this::URL_NAME], $args[$this::HTTP_METHOD]);
+        }
+
+        return new MyHttpRequest($args[$this::URL_NAME]);
     }
 
     public function buildHttpResponse(string $stringedResponse): MyHttpResponseInterface {
