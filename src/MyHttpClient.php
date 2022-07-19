@@ -1,6 +1,6 @@
 <?php
 /**
- * MyHttpAction.php
+ * MyHttpClient.php
  *
  * PHP Version 8
  *
@@ -13,7 +13,7 @@
 declare(strict_types=1);
 namespace App;
 
-class MyHttpAction implements MyHttpActionInterface {
+class MyHttpClient implements MyHttpClientInterface {
     const URL_NAME = 'url';
     const HTTP_METHOD = 'GET';
 
