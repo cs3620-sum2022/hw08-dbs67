@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit-test for Part 1
  *
@@ -10,10 +11,11 @@
  * @license  MIT https://opensource.org/licenses/MIT
  * @link     https://weber.edu
  */
+
 declare(strict_types=1);
+
 namespace App\Tests;
 
-use App\MyHttpAction;
 use App\MyHttpClient;
 use App\MyHttpRequest;
 use PHPUnit\Framework\TestCase;
@@ -78,8 +80,12 @@ class PartOneTest extends TestCase
         $actual = $this->httpClient->send($this->req);
         // assert
         $this->assertEquals(200, $actual->getStatusCode());
-        $this->assertEquals($actual->getStatusCodeMsg(), "OK");
+        $this->assertEquals("OK", $actual->getStatusCodeMsg());
         $this->assertStringContainsString("<title>Example Domain</title>", $actual->getBody());
+        $this->assertArrayHasKey("Age", $actual->getHeaders());
+        $this->assertArrayHasKey("Content-Type", $actual->getHeaders());
+        $this->assertArrayHasKey("Date", $actual->getHeaders());
+        $this->assertArrayHasKey("Last-Modified", $actual->getHeaders());
     }
 
     /**
@@ -181,5 +187,9 @@ class PartOneTest extends TestCase
         // assert
         $this->assertEquals('200', $actual->getStatusCode());
         $this->assertEquals('OK', $actual->getStatusCodeMsg());
+        $this->assertArrayHasKey("Age", $actual->getHeaders());
+        $this->assertArrayHasKey("Content-Type", $actual->getHeaders());
+        $this->assertArrayHasKey("Date", $actual->getHeaders());
+        $this->assertArrayHasKey("Last-Modified", $actual->getHeaders());
     }
 }
