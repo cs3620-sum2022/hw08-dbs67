@@ -13,7 +13,7 @@
 declare(strict_types=1);
 namespace App;
 /**
- * MyHttpActionInterface meta data type
+ * MyHttpClientInterface meta data type
  *
  * @category Source
  * @package  App

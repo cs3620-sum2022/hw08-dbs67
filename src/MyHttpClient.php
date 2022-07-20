@@ -53,18 +53,63 @@ class MyHttpClient implements MyHttpClientInterface {
         return new MyHttpRequest($args[$this::URL_NAME]);
     }
 
-    // TODO Add doc blocks
+    /**
+     * Builds a HTTP response from the provided string.
+     *
+     * @param string $stringedResponse
+     * @return MyHttpResponseInterface
+     */
     public function buildHttpResponse(string $stringedResponse): MyHttpResponseInterface {
-        // TODO Parse the response string to the appropriate parts.
         if (empty($stringedResponse)) {
             throw new \InvalidArgumentException('$stringedResponse is EMPTY.');
         }
 
+        $res = new MyHttpResponse();
+
+        // Handle the first line of the response
         $responseArray = explode("\n", $stringedResponse);
+        $metaDataArray = explode(" ", trim($responseArray[0]));
+        $res->setMetaData($metaDataArray[0], $metaDataArray[1], $metaDataArray[2]);
+        $bodyArrayOffset = -1;
 
-        print_r($responseArray);
-        die();
+        // Handle the headers.
+        foreach ($responseArray as $k => $v) {
+            if ($k == 0) continue;
+            $vTrimed = trim($v);
+            if ($vTrimed === "") {
+                $bodyArrayOffset = $k;
+                break;
+            }
+            $headerArray = $this->parseHeaderString($vTrimed);
+            $res->setHeader($headerArray['header'], $headerArray['value']);
+        }
 
-        return new MyHttpResponse();
+        // Handle the body.
+        $bodyString = '';
+        for ($i = $bodyArrayOffset; $i < count($responseArray); $i++) {
+            $bodyString .= trim($responseArray[$i]);
+        }
+        $res->setBody($bodyString);
+
+        return $res;
+    }
+
+    /**
+     * Parses a header string on the ": " tokens and returns an array with key, value elements.
+     *
+     * @param string $headerString
+     * @return array
+     */
+    private function parseHeaderString(string $headerString): array {
+        $headerArray = explode(': ', $headerString);
+
+        if (count($headerArray) != 2) {
+            throw new \InvalidArgumentException('$headerString is not a valid reponse header string');
+        }
+
+        return [
+            'header' => $headerArray[0],
+            'value' => $headerArray[1]
+        ];
     }
 }

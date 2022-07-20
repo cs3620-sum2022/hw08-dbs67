@@ -24,7 +24,6 @@ namespace App;
  */
 class MyHttpResponse implements MyHttpResponseInterface
 {
-
     /**
      * Response status code
      *
@@ -38,6 +37,13 @@ class MyHttpResponse implements MyHttpResponseInterface
      * @var string
      */
     private $_statusCodeMsg = '';
+
+    /**
+     * HTTP Version String
+     *
+     * @var string
+     */
+    private $_version = '';
 
     /**
      * ToString returns a string representation of the class
@@ -148,7 +154,7 @@ class MyHttpResponse implements MyHttpResponseInterface
      */
     public function setStatusCode($statusCode)
     {
-        $this->_statusCode = $statusCode;
+        $this->_statusCode = (int)$statusCode;
     }
     /**
      * SetMetaData sets meta data for the request/response.
@@ -160,7 +166,11 @@ class MyHttpResponse implements MyHttpResponseInterface
      * @return void
      */
     public function setMetaData($arg1, $arg2, $arg3)
-    {}
+    {
+        $this->_version = $arg1;
+        $this->setStatusCode($arg2);
+        $this->setStatusCodeMsg($arg3);
+    }
 
     /**
      * GetMetaData returns meta data for the request/response
@@ -169,6 +179,10 @@ class MyHttpResponse implements MyHttpResponseInterface
      */
     public function getMetaData():array
     {
-        return [];
+        return [
+            $this->_version,
+            $this->getStatusCode(),
+            $this->getStatusCodeMsg()
+        ];
     }
 }
