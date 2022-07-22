@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit-test for Part 2
  *
@@ -10,7 +11,9 @@
  * @license  MIT https://opensource.org/licenses/MIT
  * @link     https://weber.edu
  */
+
 declare(strict_types=1);
+
 namespace App\Tests;
 
 use GuzzleHttp\Client;
@@ -81,8 +84,4 @@ class PartTwoTest extends TestCase
         // act
         // assert
     }
-	/**
-	 */
-	function __construct() {
-	}
 }
