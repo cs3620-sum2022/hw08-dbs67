@@ -62,8 +62,12 @@ class PartTwoTest extends TestCase
         // TODO Implement test case
 
         // arrange
+        $client = new Client();
         // act
+        $res = $client->request('GET', 'http://example.com');
         // assert
+        $this->assertEquals("200", $res->getStatusCode());
+        $this->assertEquals("OK", $res->getReasonPhrase());
     }
 
     /**
@@ -83,5 +87,6 @@ class PartTwoTest extends TestCase
         // arrange
         // act
         // assert
+        $this->assertTrue(true);
     }
 }
